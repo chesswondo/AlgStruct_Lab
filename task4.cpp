@@ -1,22 +1,6 @@
 #include <time.h>
+#include <iostream>
 #include "functions.h"
-
-/*int Pollard(int N)
-{
-    int x = rand() % (N - 2) + 1;
-    int y = 1; int i = 0; int stage = 2;
-    while (gcd(N, abs(x - y)) == 1)
-    {
-        if (i == stage) {
-            y = x;
-            stage = stage * 2;
-        }
-        x = (x * x + 1) % N;
-        i = i + 1;
-    }
-    return gcd(N, abs(x - y));
-}
-*/
 
 
 // Function to calculate (base^exponent)%modulus
@@ -87,14 +71,11 @@ long long int PollardRho(long long int n)
     return d;
 }
 
-/*
-// driver function
-int main()
-{
-    long long int n = 10967535067;
-    printf("One of the divisors for %lld is %lld.",
-        n, PollardRho(n));
-    return 0;
-}
 
-*/
+void process_task4()
+{
+    long long int n;
+    std::cout << "Enter the number to factorize:\n";
+    std::cin >> n;
+    std::cout << "\n\nOne of the divisors for " << n << " is " << PollardRho(n) << "\n\n";
+}

@@ -29,6 +29,14 @@ int main()
                 process_task3();
                 break;
 
+            case 4:
+                process_task4();
+                break;
+
+            case 7:
+                process_task7();
+                break;
+
             default:
                 cout << "Incorrect number, retry\n\n";
                 break;

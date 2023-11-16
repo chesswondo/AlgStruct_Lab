@@ -1,37 +1,21 @@
 #include <cstdlib>
-
-// returns (x^y) % p
-int power(int x, unsigned int y, int p)
-{
-    int res = 1;      // initialize result
-    x = x % p;        // Update x if it is more than or
-    // equal to p
-    while (y > 0)
-    {
-        // If y is odd, multiply x with result
-        if (y & 1)
-            res = (res * x) % p;
-
-        // y must be even now
-        y = y >> 1; // y = y/2
-        x = (x * x) % p;
-    }
-    return res;
-}
+#include <iostream>
+#include <time.h>
+#include "functions.h"
 
 // This function is called for all k trials. It returns
 // false if n is composite and returns true if n is
 // probably prime.
 // d is an odd number such that  d*2 = n-1
 // for some r >= 1
-bool miillerTest(int d, int n)
+bool miillerTest(long long int d, long long int n)
 {
     // Pick a random number in [2..n-2]
     // Corner cases make sure that n > 4
-    int a = 2 + std::rand() % (n - 4);
+    long long int a = 2 + std::rand() % (n - 4);
 
     // Compute a^d % n
-    int x = power(a, d, n);
+    long long int x = modular_pow(a, d, n);
 
     if (x == 1 || x == n - 1)
         return true;
@@ -56,19 +40,19 @@ bool miillerTest(int d, int n)
 // It returns false if n is composite and returns true if n
 // is probably prime.  k is an input parameter that determines
 // accuracy level. Higher value of k indicates more accuracy.
-bool isPrime(int n, int k)
+bool isPrime(long long int n, long long int k)
 {
     // Corner cases
     if (n <= 1 || n == 4)  return false;
     if (n <= 3) return true;
 
     // Find r such that n = 2^d * r + 1 for some r >= 1
-    int d = n - 1;
+    long long int d = n - 1;
     while (d % 2 == 0)
         d /= 2;
 
     // Iterate given number of 'k' times
-    for (int i = 0; i < k; i++)
+    for (long long int i = 0; i < k; i++)
         if (!miillerTest(d, n))
             return false;
 
@@ -76,22 +60,22 @@ bool isPrime(int n, int k)
 }
 
 
-/*
 
-int main()
+void process_task7()
 {
     srand(time(NULL));
-    
-    int k = 10;
-    int total = 0;
-    for (int i = 0; i < 100000; i++)
+
+    int k, total = 0;
+    std::cout << "Enter k (the number of iterates):\n";
+    std::cin >> k;
+    std::cout << "\n\nAll prime numbers program found with k = " << k << " from 1 to 10000:\n";
+
+    for (int i = 0; i < 10000; i++)
         if (isPrime(i, k))
         {
-            cout << i << " ";
+            std::cout << i << " ";
             total++;
         }
 
-    cout << "\nTotal: " << total << endl;
+    std::cout << "\nTotal: " << total << std::endl;
 }
-
-*/

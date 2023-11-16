@@ -11,10 +11,17 @@ int evaluate(std::vector <int>& a, std::vector <int>& b, int n);
 std::vector <int> prime_factors(long long int a);
 int Lezhandro(long long int a, long long int p);
 int Jacobi(long long int a, long long int P);
-int power(int x, unsigned int y, int p);
-bool miillerTest(int d, int n);
-bool isPrime(int n, int k);
+bool miillerTest(long long int d, long long int n);
+bool isPrime(long long int n, long long int k);
+long long int modular_pow(long long int base, int exponent, long long int modulus);
+long long int PollardRho(long long int n);
+
+
 
 void process_task1();
 void process_task2();
 void process_task3();
+void process_task4();
+
+
+void process_task7();
