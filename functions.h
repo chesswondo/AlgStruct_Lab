@@ -15,7 +15,11 @@ bool miillerTest(long long int d, long long int n);
 bool isPrime(long long int n, long long int k);
 long long int modular_pow(long long int base, int exponent, long long int modulus);
 long long int PollardRho(long long int n);
-
+long long int modulo(long long int a, long long int b);
+int encrypt(long long int m, long long int n);
+int mod(int k, int b, int m);
+std::pair<int, int> eea(int a, int b);
+std::vector<long long int> decrypt(int c, int p, int q);
 
 
 void process_task1();
@@ -25,3 +29,4 @@ void process_task4();
 
 
 void process_task7();
+void process_task8();

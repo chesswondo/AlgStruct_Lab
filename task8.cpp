@@ -1,76 +1,61 @@
 #include <iostream>
 #include <algorithm>
 #include <iterator>
-#include <string>
 #include <vector>
 #include <cstring>
+#include <string>
+
 using namespace std;
 
-
-int p = 167, q = 151;
-int n = p * q;
-
-int modulo(int a, int b)
+// computes a mod b
+long long int modulo(long long int a, long long int b)
 {
     return a >= 0 ? a % b : (b - abs(a % b)) % b;
 }
 
-void encode(string s)
+// encryption (m^2 mod n)
+int encrypt(long long int m, long long int n)
 {
-    vector<int>l;
-    for (int i = 0; i < strlen(s.c_str()); i++) {
-        l.push_back((int)s[i]);
-    }
-    copy(l.begin(), l.end(), ostream_iterator<int>(cout, ""));
+    return (m * m) % n;
 }
 
-void decode(vector<int> s)
-{
-    vector<char>l;
-    for (int i = 0; i < s.size(); i++) {
-        l.push_back(char(s[i]));
-    }
-    copy(l.begin(), l.end(), ostream_iterator<char>(cout, ""));
-}
-
-int encrypt(int m, int n)
-{
-    int c = (m * m) % n;
-    return c;
-}
-
+// computes b^k mod m
 int mod(int k, int b, int m)
 {
     int i = 0;
     int a = 1;
     vector<int> t;
-    while (k > 0) {
+    while (k > 0)
+    {
         t.push_back(k % 2);
         k = (k - t[i]) / 2;
         i++;
     }
-    for (int j = 0; j < i; j++) {
-        if (t[j] == 1) {
+    for (int j = 0; j < i; j++)
+    {
+        if (t[j] == 1)
+        {
             a = (a * b) % m;
             b = (b * b) % m;
         }
-        else {
-            b = (b * b) % m;
-        }
+
+        else b = (b * b) % m;
     }
+
     return a;
 }
 
-vector<int> eea(int a, int b)
+// euclidean algorithm
+pair<int, int> eea(int a, int b)
 {
-    if (b > a) {
+    if (b > a)
+    {
         int temp = a; a = b; b = temp;
     }
-    int x = 0;
-    int y = 1;
-    int lastx = 1;
-    int lasty = 0;
-    while (b != 0) {
+    int x = 0, y = 1;
+    int lastx = 1, lasty = 0;
+    while (b != 0)
+    {
         int q = a / b;
         int temp1 = a % b;
         a = b;
@@ -82,54 +67,72 @@ vector<int> eea(int a, int b)
         y = lasty - q * y;
         lasty = temp3;
     }
-    vector<int>arr(3);
-    arr[0] = lastx;
-    arr[1] = lasty;
-    arr[2] = 1;
-    return arr;
+
+    return make_pair(lastx, lasty);
 }
 
-int decrypt(int c, int p, int q)
+// decryption
+vector<long long int> decrypt(int c, int p, int q)
 {
-    int mp = mod((p + 1) / 4, c, p);
-    int mq = mod((q + 1) / 4, c, q);
-    vector<int> arr = eea(p, q);
-    int pp = arr[0] * p * mq;
-    int qq = arr[1] * q * mp;
-    double r = modulo((pp + qq), n);
-    if (r < 128)
-        return r;
-    int negative_r = n - r;
-    if (negative_r < 128)
-        return negative_r;
-    int s = modulo((pp - qq), n);
-    if (s < 128)
-        return s;
-    int negative_s = n - s;
-    if (negative_s < 128)
-        return negative_s;
+    int n = p * q;
+    long long int mp = mod((p + 1) / 4, c, p);
+    long long int mq = mod((q + 1) / 4, c, q);
+    
+    pair<int, int> arr = eea(p, q);
+    int pp = arr.first * p * mq;
+    int qq = arr.second * q * mp;
+    
+    long long int r = modulo((pp + qq), n);
+    long long int s = modulo((pp - qq), n);
+
+    vector <long long int> res(4);
+    res[0] = r;
+    res[1] = n - r;
+    res[2] = s;
+    res[3] = n - s;
+
+    return res;
 }
 
-/*int main()
+
+void process_task8()
 {
-    string test = "Rabin Cryptosystem";
-    cout << "Message: " << test << endl;
-    int len = strlen(test.c_str());
+    //int p = 167, q = 151;
+    int p = 263, q = 211;
+    int n = p * q;
+
+    string test;
+    cout << "\nEnter the message to encrypt:\n";
+    getline(cin, test);
+
+    cout << "\nMessage: " << test << endl;
     vector<int>l;
-    for (int i = 0; i <= len; i++)
-    {
+    for (int i = 0; i <= test.size(); i++)
         l.push_back(encrypt(test[i], n));
-    }
+
     cout << "Encryption: ";
     copy(l.begin(), l.end(), ostream_iterator<int>(cout, ""));
-    vector<int>d;
-    for (int i = 0; i < len; i++)
+
+    vector<vector<int>> d(4);
+    for (int i = 0; i < test.size(); i++)
+        for (int k = 0; k < 4; k++)
+            d[k].push_back(decrypt(l[i], p, q)[k]);
+
+    vector <char> correct_message(d[0].size());
+    cout << "\nAll decoded messages:\n";
+    for (int k = 0; k < 4; k++)
     {
-        d.push_back(decrypt(l[i], p, q));
+        for (int i = 0; i < d[0].size(); i++)
+        {
+            cout << char(d[k][i]) << " ";
+            if (d[k][i] <= 111) correct_message[i] = char(d[k][i]);
+        }
+        cout << endl;
     }
-    cout << "\nDecoded message: ";
-    decode(d);
-    cout << endl;
-    return 0;
+    
+    cout << "\nCorrect message:\n";
+    for (char c : correct_message) cout << c;
+
+    cout << "\n\n";
+    
 }
-*/

@@ -14,6 +14,7 @@ int main()
     {
         cout << "Enter the number of task you want to process:\n";
         cin >> num_task;
+        cin.ignore(100, '\n');
 
         switch (num_task)
         {
@@ -35,6 +36,10 @@ int main()
 
             case 7:
                 process_task7();
+                break;
+
+            case 8:
+                process_task8();
                 break;
 
             default:
