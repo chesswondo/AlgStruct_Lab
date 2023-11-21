@@ -1,81 +1,57 @@
-#include <time.h>
 #include <iostream>
 #include "functions.h"
 
 
-// Function to calculate (base^exponent)%modulus
-long long int modular_pow(long long int base, int exponent,
-    long long int modulus)
+// calculate (n^exp) % mod
+long long int mod_pow(long long int n, long long int exp, long long int mod)
 {
-    // initialize result
-    long long int result = 1;
-
-    while (exponent > 0)
+    long long int res = 1;
+    while (exp > 0)
     {
-        // if y is odd, multiply base with result
-        if (exponent & 1)
-            result = (result * base) % modulus;
-
-        // exponent = exponent/2
-        exponent = exponent >> 1;
-
-        // base = base * base
-        base = (base * base) % modulus;
+        if (exp % 2) res = (res * n) % mod;
+        exp /= 2;
+        n = (n * n) % mod;
     }
-    return result;
+    return res;
 }
 
-// method to return prime divisor for n
+// return a single divisor for n
 long long int PollardRho(long long int n)
 {
-    // initialize random seed
-    srand(time(NULL));
-
-    // no prime divisor for 1
     if (n == 1) return n;
-
-    // even number means one of the divisors is 2
     if (n % 2 == 0) return 2;
 
-    // we will pick from the range [2, N)
-    long long int x = (rand() % (n - 2)) + 2;
-    long long int y = x;
-
-    // the constant in f(x).
-     // Algorithm can be re-run with a different c
-     // if it throws failure for a composite
-    long long int c = (rand() % (n - 1)) + 1;
-
-    // Initialize candidate divisor (or result)
-    long long int d = 1;
-
-    // until the prime factor isn't obtained.
-     //  If n is prime, return n
-    while (d == 1)
+    long long int x = (rand() % (n - 2))+2;
+    long long y = 1, i = 0, stage = 2;
+    while (gcd(n, abs(x - y)) == 1)
     {
-        // Tortoise Move: x(i+1) = f(x(i))
-        x = (modular_pow(x, 2, n) + c + n) % n;
+        if (i == stage)
+        {
+            y = x;
+            stage *= 2;
+        }
 
-        // Hare Move: y(i+1) = f(f(y(i)))
-        y = (modular_pow(y, 2, n) + c + n) % n;
-        y = (modular_pow(y, 2, n) + c + n) % n;
-
-        // check gcd of |x-y| and n
-        d = gcd(abs(x - y), n);
-
-        // retry if the algorithm fails to find prime factor
-         // with chosen x and c
-        if (d == n) return PollardRho(n);
+        x = modulo((mod_pow(x, 2, n) + 1), n);
+        i++;
     }
 
-    return d;
+    return gcd(n, abs(x - y));
 }
 
 
 void process_task4()
-{
+{    
     long long int n;
     std::cout << "Enter the number to factorize:\n";
     std::cin >> n;
-    std::cout << "\n\nOne of the divisors for " << n << " is " << PollardRho(n) << "\n\n";
+    std::cout << "\nDivisors for the number " << n << ":\n";
+
+    while (n > 1)
+    {
+        int div = PollardRho(n);
+        std::cout << div << " ";
+        n /= div;
+    }
+
+    std::cout << "\n\n";
 }

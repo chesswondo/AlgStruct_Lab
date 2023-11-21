@@ -9,6 +9,7 @@ using namespace std;
 
 int main()
 {
+    srand(time(NULL));
     int num_task;
     while (true)
     {
@@ -32,6 +33,14 @@ int main()
 
             case 4:
                 process_task4();
+                break;
+
+            case 5:
+                process_task5();
+                break;
+
+            case 6:
+                process_task6();
                 break;
 
             case 7:

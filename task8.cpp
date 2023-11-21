@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstring>
 #include <string>
+#include "functions.h"
 
 using namespace std;
 
@@ -19,41 +20,13 @@ int encrypt(long long int m, long long int n)
     return (m * m) % n;
 }
 
-// computes b^k mod m
-int mod(int k, int b, int m)
-{
-    int i = 0;
-    int a = 1;
-    vector<int> t;
-    while (k > 0)
-    {
-        t.push_back(k % 2);
-        k = (k - t[i]) / 2;
-        i++;
-    }
-    for (int j = 0; j < i; j++)
-    {
-        if (t[j] == 1)
-        {
-            a = (a * b) % m;
-            b = (b * b) % m;
-        }
-
-        else b = (b * b) % m;
-    }
-
-    return a;
-}
-
 // euclidean algorithm
 pair<int, int> eea(int a, int b)
 {
-    if (b > a)
-    {
-        int temp = a; a = b; b = temp;
-    }
+    if (b > a) swap(a, b);
     int x = 0, y = 1;
     int lastx = 1, lasty = 0;
+
     while (b != 0)
     {
         int q = a / b;
@@ -72,11 +45,11 @@ pair<int, int> eea(int a, int b)
 }
 
 // decryption
-vector<long long int> decrypt(int c, int p, int q)
+vector<long long int> decrypt(long long int c, long long int p, long long int q)
 {
     int n = p * q;
-    long long int mp = mod((p + 1) / 4, c, p);
-    long long int mq = mod((q + 1) / 4, c, q);
+    long long int mp = mod_pow(c, (p + 1) / 4, p);
+    long long int mq = mod_pow(c, (q + 1) / 4, q);
     
     pair<int, int> arr = eea(p, q);
     int pp = arr.first * p * mq;
@@ -98,8 +71,8 @@ vector<long long int> decrypt(int c, int p, int q)
 void process_task8()
 {
     //int p = 167, q = 151;
-    int p = 263, q = 211;
-    int n = p * q;
+    long long int p = 263, q = 211;
+    long long int n = p * q;
 
     string test;
     cout << "\nEnter the message to encrypt:\n";

@@ -2,7 +2,7 @@
 #include<vector>
 
 // Euler function
-int euler(int n)
+long long int euler(long long int n)
 {
     int res = n;
     for (int i = 2; i * i <= n; i++)
@@ -19,7 +19,7 @@ int euler(int n)
 
 
 // Mobius function
-int mobius(int n)
+int mobius(long long int n)
 {
     int p = 0;
 
@@ -48,7 +48,7 @@ int mobius(int n)
 
 
 // gcd of two numbers
-int gcd(int a, int b)
+long long int gcd(long long int a, long long int b)
 {
     while (a && b)
         if (a < b) b %= a;
@@ -59,15 +59,15 @@ int gcd(int a, int b)
 
 
 //lcm for two numbers
-int lcm(int a, int b)
+long long int lcm(long long int a, long long int b)
 {
     return a / gcd(a, b) * b;
 }
 
 
-int lcm_set(std::vector <int>& n)
+long long int lcm_set(std::vector <long long int>& n)
 {
-    int res = lcm(n[0], n[1]);
+    long long int res = lcm(n[0], n[1]);
     if (n.size() == 2) return res;
 
     for (int i = 2; i < n.size(); i++)
@@ -79,7 +79,7 @@ int lcm_set(std::vector <int>& n)
 
 void process_task1()
 {
-    int num;
+    long long int num;
 
     //1
     std::cout << "\nEnter the number to calculate Euler function:\n";
@@ -94,7 +94,7 @@ void process_task1()
     //3
     std::cout << "\nEnter the size of the set of numbers of which you want to find lcm:\n"; std::cin >> num;
     std::cout << "And now enter these numbers:\n";
-    std::vector <int> numbers;
+    std::vector <long long int> numbers;
     for (int i = 0; i < num; i++)
     {
         int a; std::cin >> a;
