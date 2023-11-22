@@ -98,7 +98,7 @@ void process_task8()
         for (int i = 0; i < d[0].size(); i++)
         {
             cout << char(d[k][i]) << " ";
-            if (d[k][i] <= 111) correct_message[i] = char(d[k][i]);
+            if (d[k][i] <= 128) correct_message[i] = char(d[k][i]);
         }
         cout << endl;
     }

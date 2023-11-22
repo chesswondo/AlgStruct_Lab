@@ -58,15 +58,18 @@ long long int gcd(long long int a, long long int b)
 }
 
 
-//lcm for two numbers
+// lcm for two numbers
 long long int lcm(long long int a, long long int b)
 {
     return a / gcd(a, b) * b;
 }
 
 
+// lcm for a set of numbers
 long long int lcm_set(std::vector <long long int>& n)
 {
+    if (n.size() == 1) return n[0];
+    
     long long int res = lcm(n[0], n[1]);
     if (n.size() == 2) return res;
 

@@ -49,8 +49,5 @@ void process_task5()
 	int k = discreteLogarithm(a, b, m);
 	if (k == -1) cout << "\nNo k value satisfies given expression\n\n";
 	else cout << "\nk = " << k << "\nSo you have " << a << "^" << k << " = " << b << " (mod " << m << ")\n\n";
-
-	/*a = 2, b = 3, m = 5: 3
-	a = 3, b = 7, m = 11: -1*/
 }
 
