@@ -51,6 +51,10 @@ int main()
                 process_task8();
                 break;
 
+            case 9:
+                process_task9();
+                break;
+
             default:
                 cout << "Incorrect number, retry\n\n";
                 break;

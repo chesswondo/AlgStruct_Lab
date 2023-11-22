@@ -23,7 +23,8 @@ int discreteLogarithm(int a, int b, int m);
 std::vector<int> convertToBase(int n, int b);
 std::pair<long long, long long> cipollaMult(std::pair<long long, long long> a, std::pair<long long, long long> b, long long w, long long p);
 std::pair<long long, long long> cipolla(long long int n, long long int p);
-
+std::pair<std::vector<int>, std::vector<int>> gen_points(int p, int a, int b);
+std::vector<int> encrypt(int k, int d, int m, std::vector<int>& arr_x, std::vector<int>& arr_y);
 
 void process_task1();
 void process_task2();
@@ -33,3 +34,4 @@ void process_task5();
 void process_task6();
 void process_task7();
 void process_task8();
+void process_task9();
